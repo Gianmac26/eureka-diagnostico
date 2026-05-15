@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diagnóstico de Negocio — Eureka Agencia Digital</title>
+  <meta name="description" content="Completa tu diagnóstico de negocio con la metodología Eureka. 10 minutos para identificar exactamente dónde está el cuello de botella de tu empresa." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --purple: #5B3EFF;
+      --purple-light: #EEF0FF;
+      --purple-mid: #7F77DD;
+      --bg: #F7F6F3;
+      --surface: #FFFFFF;
+      --surface2: #F1EFE8;
+      --border: rgba(0,0,0,0.08);
+      --border-strong: rgba(0,0,0,0.14);
+      --text: #1A1A1A;
+      --text-muted: #6B6B6B;
+      --text-hint: #A0A0A0;
+      --blue-bg: #E6F1FB;
+      --blue-text: #0C447C;
+      --amber-bg: #FAEEDA;
+      --amber-text: #633806;
+      --coral-bg: #FAECE7;
+      --coral-text: #4A1B0C;
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── TOP BAR ── */
+    .topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(247,246,243,0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 0.5px solid var(--border);
+      padding: 0 2rem;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .logo-mark {
+      width: 32px; height: 32px;
+      background: var(--purple);
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 14px;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .logo-sub {
+      font-size: 10px;
+      font-weight: 400;
+      color: var(--text-muted);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .topbar-badge {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 0.5px solid var(--border-strong);
+      background: var(--surface);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 120px 2rem 60px;
+      max-width: 760px;
+      margin: 0 auto;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.6s ease 0.1s forwards;
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--purple-light);
+      color: var(--purple);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-pill-dot {
+      width: 6px; height: 6px;
+      background: var(--purple);
+      border-radius: 50%;
+      animation: pulse 2s ease infinite;
+    }
+
+    .hero-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(32px, 5vw, 52px);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+
+    .hero-title em {
+      font-style: normal;
+      color: var(--purple);
+    }
+
+    .hero-desc {
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--text-muted);
+      max-width: 540px;
+      margin-bottom: 2rem;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-stat-value {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 22px;
+      color: var(--text);
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-hint);
+      font-weight: 300;
+      margin-top: 2px;
+    }
+
+    /* ── FORM CONTAINER ── */
+    .form-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 2rem 6rem;
+    }
+
+    /* ── STEP CARD ── */
+    .step-card {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem 2rem;
+      margin-bottom: 1rem;
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadeUp 0.5s ease forwards;
+    }
+
+    .step-card:nth-child(1) { animation-delay: 0.2s; }
+    .step-card:nth-child(2) { animation-delay: 0.3s; }
+    .step-card:nth-child(3) { animation-delay: 0.4s; }
+    .step-card:nth-child(4) { animation-delay: 0.5s; }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1.25rem;
+    }
+
+    .step-num {
+      width: 28px; height: 28px;
+      background: var(--purple-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      color: var(--purple);
+      flex-shrink: 0;
+    }
+
+    .step-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--text);
+    }
+
+    .step-subtitle {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--text-hint);
+      margin-top: 2px;
+    }
+
+    /* ── GRID INPUTS ── */
+    .input-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .input-group input,
+    .input-group textarea {
+      width: 100%;
+      background: var(--bg);
+      border: 0.5px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      -webkit-appearance: none;
+    }
+
+    .input-group input:focus,
+    .input-group textarea:focus {
+      border-color: var(--purple);
+      box-shadow: 0 0 0 3px rgba(91,62,255,0.1);
+    }
+
+    .input-group input::placeholder,
+    .input-group textarea::placeholder {
+      color: var(--text-hint);
+      font-weight: 300;
+    }
+
+    .input-group textarea {
+      resize: vertical;
+      min-height: 80px;
+      line-height: 1.6;
+    }
+
+    /* ── DIAGNOSIS SELECTOR ── */
+    .diag-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+    }
+
+    .diag-option {
+      border: 1.5px solid transparent;
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      cursor: pointer;
+      transition: border-color 0.15s, transform 0.1s;
+      position: relative;
+    }
+
+    .diag-option:hover { transform: translateY(-1px); }
+
+    .diag-option.alcance { background: var(--blue-bg); }
+    .diag-option.conversion { background: var(--amber-bg); }
+    .diag-option.producto { background: var(--coral-bg); }
+
+    .diag-option.selected.alcance { border-color: #185FA5; }
+    .diag-option.selected.conversion { border-color: #854F0B; }
+    .diag-option.selected.producto { border-color: #993C1D; }
+
+    .diag-check {
+      position: absolute;
+      top: 10px; right: 10px;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      border: 1.5px solid currentColor;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+
+    .diag-option.selected .diag-check { opacity: 1; }
+
+    .diag-icon {
+      font-size: 26px;
+      margin-bottom: 0.6rem;
+    }
+
+    .diag-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      margin-bottom: 0.3rem;
+    }
+
+    .alcance .diag-title, .alcance .diag-check { color: var(--blue-text); }
+    .conversion .diag-title, .conversion .diag-check { color: var(--amber-text); }
+    .producto .diag-title, .producto .diag-check { color: var(--coral-text); }
+
+    .diag-desc {
+      font-size: 12px;
+      font-weight: 300;
+      line-height: 1.5;
+    }
+
+    .alcance .diag-desc { color: #185FA5; }
+    .conversion .diag-desc { color: #854F0B; }
+    .producto .diag-desc { color: #993C1D; }
+
+    /* ── METHODOLOGY BOX ── */
+    .method-box {
+      background: #1A1A1A;
+      border-radius: var(--radius);
+      padding: 1.5rem 1.75rem;
+      margin-bottom: 1rem;
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadeUp 0.5s ease 0.55s forwards;
+    }
+
+    .method-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--purple-mid);
+      margin-bottom: 0.75rem;
+    }
+
+    .method-tag-dot {
+      width: 5px; height: 5px;
+      background: var(--purple-mid);
+      border-radius: 50%;
+    }
+
+    .method-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+
+    .method-desc {
+      font-size: 13px;
+      font-weight: 300;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.55);
+    }
+
+    .method-desc strong {
+      color: rgba(255,255,255,0.85);
+      font-weight: 500;
+    }
+
+    /* ── CTA ── */
+    .cta-wrap {
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadeUp 0.5s ease 0.65s forwards;
+    }
+
+    .cta-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      background: var(--purple);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      padding: 16px 24px;
+      font-size: 15px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+
+    .cta-btn:hover { background: #4A2EE8; }
+    .cta-btn:active { transform: scale(0.99); }
+
+    .cta-btn svg {
+      width: 16px; height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    .cta-note {
+      text-align: center;
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--text-hint);
+    }
+
+    /* ── SUCCESS SCREEN ── */
+    .success-screen {
+      display: none;
+      text-align: center;
+      padding: 4rem 2rem;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .success-icon {
+      width: 64px; height: 64px;
+      background: var(--purple-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+    }
+
+    .success-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 28px;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+    }
+
+    .success-desc {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: rgba(247,246,243,0.9);
+      backdrop-filter: blur(10px);
+      border-top: 0.5px solid var(--border);
+      padding: 0.75rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 100;
+    }
+
+    .footer-note {
+      font-size: 11px;
+      color: var(--text-hint);
+      font-weight: 300;
+    }
+
+    .footer-pill {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--purple);
+      background: var(--purple-light);
+      padding: 3px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .topbar { padding: 0 1rem; }
+      .hero { padding: 100px 1rem 40px; }
+      .form-wrap { padding: 0 1rem 6rem; }
+      .step-card { padding: 1.25rem; }
+      .hero-stats { gap: 1.25rem; }
+      .diag-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <nav class="topbar">
+    <a href="#" class="logo">
+      <div class="logo-mark">E</div>
+      <div>
+        <div class="logo-text">EUREKA</div>
+        <div class="logo-sub">Agencia Digital</div>
+      </div>
+    </a>
+    <span class="topbar-badge">Diagnóstico de negocio</span>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-pill">
+      <div class="hero-pill-dot"></div>
+      Metodología Eureka · 2026
+    </div>
+    <h1 class="hero-title">
+      Antes de hablar de estrategia,<br />
+      necesitamos <em>los números.</em>
+    </h1>
+    <p class="hero-desc">
+      Este diagnóstico toma 10 minutos. Con la información correcta identificamos exactamente dónde está el cuello de botella de tu negocio y qué acción genera el mayor retorno inmediato.
+    </p>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-value">10 min</div>
+        <div class="hero-stat-label">Tiempo promedio</div>
+      </div>
+      <div>
+        <div class="hero-stat-value">3 pasos</div>
+        <div class="hero-stat-label">Proceso simplificado</div>
+      </div>
+      <div>
+        <div class="hero-stat-value">1 acción</div>
+        <div class="hero-stat-label">Ejecutable en 24 hrs</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORM -->
+  <main class="form-wrap" id="main-form">
+
+    <!-- STEP 1 -->
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">Tu oferta actual</div>
+          <div class="step-subtitle">Sé específico. Los detalles importan.</div>
+        </div>
+      </div>
+      <div class="input-grid">
+        <div class="input-group">
+          <label>¿Qué vendes exactamente?</label>
+          <input type="text" id="oferta" placeholder="Ej: Gestión de redes + ads en Meta" />
+        </div>
+        <div class="input-group">
+          <label>Precio actual</label>
+          <input type="text" id="precio" placeholder="Ej: $500 / mes" />
+        </div>
+        <div class="input-group">
+          <label>Clientes activos hoy</label>
+          <input type="text" id="clientes" placeholder="Ej: 8 clientes" />
+        </div>
+        <div class="input-group">
+          <label>Ingreso mensual total</label>
+          <input type="text" id="ingreso" placeholder="Ej: $4,000 / mes" />
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">Métricas de captación</div>
+          <div class="step-subtitle">Si no las tienes exactas, da un estimado.</div>
+        </div>
+      </div>
+      <div class="input-grid">
+        <div class="input-group">
+          <label>Leads por mes</label>
+          <input type="text" id="leads" placeholder="Ej: 20 leads / mes" />
+        </div>
+        <div class="input-group">
+          <label>Tasa de cierre</label>
+          <input type="text" id="cierre" placeholder="Ej: 3 de cada 10" />
+        </div>
+        <div class="input-group">
+          <label>LTV del cliente</label>
+          <input type="text" id="ltv" placeholder="Ej: 3 meses promedio" />
+        </div>
+        <div class="input-group">
+          <label>Canal principal de leads</label>
+          <input type="text" id="canal" placeholder="Ej: Instagram, referidos, etc." />
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">¿Cuál es tu mayor problema hoy?</div>
+          <div class="step-subtitle">Selecciona el que más te identifica.</div>
+        </div>
+      </div>
+      <div class="diag-grid">
+        <div class="diag-option alcance" onclick="selectDiag(this, 'alcance')">
+          <div class="diag-check">✓</div>
+          <div class="diag-icon">📡</div>
+          <div class="diag-title">Alcance</div>
+          <div class="diag-desc">No llegan suficientes personas a conocer mi oferta</div>
+        </div>
+        <div class="diag-option conversion" onclick="selectDiag(this, 'conversion')">
+          <div class="diag-check">✓</div>
+          <div class="diag-icon">🔄</div>
+          <div class="diag-title">Conversión</div>
+          <div class="diag-desc">Llegan leads pero no se convierten en clientes</div>
+        </div>
+        <div class="diag-option producto" onclick="selectDiag(this, 'producto')">
+          <div class="diag-check">✓</div>
+          <div class="diag-icon">📦</div>
+          <div class="diag-title">Producto</div>
+          <div class="diag-desc">El servicio consume demasiado tiempo y no escala</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4 — CONTEXT -->
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-num">4</div>
+        <div>
+          <div class="step-title">Contexto adicional</div>
+          <div class="step-subtitle">Opcional pero valioso.</div>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>¿Qué has intentado antes y no funcionó?</label>
+        <textarea id="contexto" placeholder="Ej: Bajé precios para conseguir más clientes, gasté en publicidad sin resultados, etc."></textarea>
+      </div>
+    </div>
+
+    <!-- METHODOLOGY -->
+    <div class="method-box">
+      <div class="method-tag">
+        <div class="method-tag-dot"></div>
+        Metodología Eureka
+      </div>
+      <div class="method-title">Lo que hacemos con tus datos</div>
+      <p class="method-desc">
+        Aplicamos la <strong>Value Equation de Hormozi</strong> para determinar si tu oferta actual es un Grand Slam Offer o necesita ser reconstruida. El objetivo es claro: <strong>más valor percibido, menos esfuerzo del cliente, precio más alto.</strong> Recibirás un diagnóstico concreto con una acción ejecutable en las próximas 24 horas.
+      </p>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-wrap">
+      <button class="cta-btn" onclick="submitForm()">
+        Enviar diagnóstico y obtener mi plan
+        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+      <p class="cta-note">Confidencial · Tu información nunca se comparte con terceros</p>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="success-screen" id="success">
+      <div class="success-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#5B3EFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </div>
+      <div class="success-title">Diagnóstico recibido</div>
+      <p class="success-desc">El equipo de Eureka revisará tu información y te contactará en menos de 24 horas con tu plan de acción personalizado.</p>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-note">Confidencial — Eureka Agencia Digital © 2026</span>
+    <span class="footer-pill">Powered by Hormozi Method</span>
+  </footer>
+
+  <script>
+    let selectedDiag = '';
+
+    function selectDiag(el, type) {
+      document.querySelectorAll('.diag-option').forEach(d => d.classList.remove('selected'));
+      el.classList.add('selected');
+      selectedDiag = type;
+    }
+
+    function submitForm() {
+      const fields = ['oferta', 'precio', 'clientes', 'ingreso', 'leads', 'cierre'];
+      const empty = fields.filter(id => !document.getElementById(id).value.trim());
+
+      if (empty.length > 0) {
+        const first = document.getElementById(empty[0]);
+        first.focus();
+        first.style.borderColor = '#E24B4A';
+        first.style.boxShadow = '0 0 0 3px rgba(226,75,74,0.12)';
+        setTimeout(() => {
+          first.style.borderColor = '';
+          first.style.boxShadow = '';
+        }, 2000);
+        return;
+      }
+
+      if (!selectedDiag) {
+        document.querySelector('.diag-grid').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      document.getElementById('main-form').style.display = 'none';
+      document.getElementById('success').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+
+</body>
+</html>
