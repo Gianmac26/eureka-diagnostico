@@ -743,7 +743,9 @@
       selectedDiag = type;
     }
 
-    function submitForm() {
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzNyDqFiU2eiymLuZM4Lw3gAzNVcDTAHzlTxnEz4MiZBsiRWk2q1WQ62QBw8zjenrf9Dg/exec';
+
+    async function submitForm() {
       const fields = ['oferta', 'precio', 'clientes', 'ingreso', 'leads', 'cierre'];
       const empty = fields.filter(id => !document.getElementById(id).value.trim());
 
@@ -764,9 +766,40 @@
         return;
       }
 
-      document.getElementById('main-form').style.display = 'none';
-      document.getElementById('success').style.display = 'block';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      const btn = document.querySelector('.cta-btn');
+      btn.disabled = true;
+      btn.innerHTML = 'Enviando diagnóstico...';
+
+      const payload = {
+        oferta:   document.getElementById('oferta').value.trim(),
+        precio:   document.getElementById('precio').value.trim(),
+        clientes: document.getElementById('clientes').value.trim(),
+        ingreso:  document.getElementById('ingreso').value.trim(),
+        leads:    document.getElementById('leads').value.trim(),
+        cierre:   document.getElementById('cierre').value.trim(),
+        ltv:      document.getElementById('ltv').value.trim(),
+        canal:    document.getElementById('canal').value.trim(),
+        problema: selectedDiag,
+        contexto: document.getElementById('contexto').value.trim()
+      };
+
+      try {
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        document.getElementById('main-form').style.display = 'none';
+        document.getElementById('success').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      } catch (err) {
+        btn.disabled = false;
+        btn.innerHTML = 'Enviar diagnóstico y obtener mi plan <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+        alert('Hubo un error al enviar. Intenta de nuevo.');
+      }
     }
   </script>
 
