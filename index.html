@@ -784,10 +784,10 @@
       };
 
       try {
-        await fetch(SCRIPT_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          body: new URLSearchParams(payload)
+        const params = new URLSearchParams(payload);
+        await fetch(SCRIPT_URL + '?' + params.toString(), {
+          method: 'GET',
+          mode: 'no-cors'
         });
 
         window.location.href = 'https://wa.me/51956190089?text=Hola%20Eureka%2C%20acabo%20de%20completar%20mi%20diagn%C3%B3stico%20de%20negocio.%20Quedo%20atento%20a%20su%20respuesta.';
